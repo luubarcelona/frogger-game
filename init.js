@@ -5,6 +5,7 @@ const frogger = {
     positionY:500,
     width:80,
     height:80,
+    death:false,
 }
 
 function drawFrogger() {
@@ -14,16 +15,7 @@ function drawFrogger() {
 
 const speeds = 2
 const cars = []
-const logs = []
 
-const logsTemplate = {
-    positionX: 1630,
-    positionY: 200,
-    width: 150,
-    height: 70,
-    color: "red",
-
-}
 
 const carTemplate = {
     positionX: -150,
@@ -37,41 +29,44 @@ setInterval(() => {
     cars.push({ ...carTemplate})
 }, 2500);
 
-setInterval(() => {
-    logs.push({ ...logsTemplate })
-}, 2500); 
 
 function moveCars() {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
+    cars.forEach((carMovement) => {
+        carMovement.positionX += speeds
+        ctx.fillStyle = carMovement.color
 
-    for (let i = 0; i < cars.length; i++) {
-        cars[i].positionX += speeds
-
-        if (cars[i].positionX  > canvas.width) {
-            cars.splice(i, 1)
-            i--
-            continue
-        }
-
-        ctx.fillStyle = cars[i].color
-        ctx.fillRect(cars[i].positionX, cars[i].positionY, cars[i].width, cars[i].height)
-    }
-
-    for (let i = 0; i < logs.length; i++) {
-        logs[i].positionX -= speeds
-
-        if (logs[i].positionX + logs[i].width < 0) {
-            logs.splice(i, 1)
-            i--
-            continue
-        }
-        ctx.fillStyle = logs[i].color
-        ctx.fillRect(logs[i].positionX, logs[i].positionY, logs[i].width, logs[i].height)
-    }
+        ctx.fillRect(carMovement.positionX, carMovement.positionY, carMovement.width, carMovement.height)
+    })
     drawFrogger()
+    if (colliding(frogger, cars)) {
+    console.log("¡Rana atropellada!");
+    // aquí podrías reiniciar la rana o detener el juego
+}
     requestAnimationFrame(moveCars)
 }
 moveCars()
+
+
+
+
+
+function colliding(frogger, cars) {
+    const collition = cars.some(car => 
+        // retornamos true si hay choque
+        frogger.positionX <= car.positionX + car.width &&  
+        frogger.positionX + frogger.width >= car.positionX &&
+        frogger.positionY <= car.positionY + car.height && 
+        frogger.positionY + frogger.height >= car.positionY
+    );
+
+    if (collition) {
+        frogger.death = true;
+    }
+
+    return collition;
+}
+
 
 document.addEventListener("keydown", function(event) {
   if(event.key === "ArrowUp" && frogger.positionY - 100 >= 0) {
@@ -90,4 +85,12 @@ document.addEventListener("keydown", function(event) {
       frogger.positionX -= 100
   }
 
+
 })
+
+
+
+
+
+
+
