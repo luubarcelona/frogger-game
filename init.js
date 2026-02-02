@@ -5,6 +5,7 @@ const frogger = {
     positionY:500,
     width:80,
     height:80,
+    death:false,
 }
 
 function drawFrogger() {
@@ -29,22 +30,43 @@ setInterval(() => {
 }, 2500);
 
 
-
 function moveCars() {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
-
-   
     cars.forEach((carMovement) => {
         carMovement.positionX += speeds
-        
         ctx.fillStyle = carMovement.color
+
         ctx.fillRect(carMovement.positionX, carMovement.positionY, carMovement.width, carMovement.height)
     })
-    
     drawFrogger()
+    if (colliding(frogger, cars)) {
+    console.log("¡Rana atropellada!");
+    // aquí podrías reiniciar la rana o detener el juego
+}
     requestAnimationFrame(moveCars)
 }
 moveCars()
+
+
+
+
+
+function colliding(frogger, cars) {
+    const collition = cars.some(car => 
+        // retornamos true si hay choque
+        frogger.positionX <= car.positionX + car.width &&  
+        frogger.positionX + frogger.width >= car.positionX &&
+        frogger.positionY <= car.positionY + car.height && 
+        frogger.positionY + frogger.height >= car.positionY
+    );
+
+    if (collition) {
+        frogger.death = true;
+    }
+
+    return collition;
+}
+
 
 document.addEventListener("keydown", function(event) {
   if(event.key === "ArrowUp" && frogger.positionY - 100 >= 0) {
@@ -64,5 +86,11 @@ document.addEventListener("keydown", function(event) {
   }
 
 
-
 })
+
+
+
+
+
+
+
