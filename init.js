@@ -21,7 +21,7 @@ const logsTemplate = {
     positionY: 200,
     width: 150,
     height: 70,
-    color: "yellow",
+    color: "red",
 
 }
 
