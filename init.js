@@ -5,7 +5,7 @@ const frogger = {
     positionY:500,
     width:80,
     height:80,
-}
+    }
 
 function drawFrogger() {
     ctx.fillStyle = "green"
@@ -43,7 +43,7 @@ setInterval(() => {
 
 function moveCars() {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
-
+    
     for (let i = 0; i < cars.length; i++) {
         cars[i].positionX += speeds
 
@@ -68,7 +68,7 @@ function moveCars() {
         ctx.fillStyle = logs[i].color
         ctx.fillRect(logs[i].positionX, logs[i].positionY, logs[i].width, logs[i].height)
     }
-    drawFrogger()
+drawFrogger()    
     requestAnimationFrame(moveCars)
 }
 moveCars()
