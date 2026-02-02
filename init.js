@@ -22,7 +22,7 @@ const carTemplate = {
     positionY: 400,
     width: 150,
     height: 70,
-    color: "blue", 
+    color: "green", 
 }
 
 setInterval(() => {
