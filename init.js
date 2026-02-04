@@ -2,13 +2,13 @@ const canvas = document.getElementById("miCanvas")
 const ctx = canvas.getContext("2d")
 const frogger = {
     positionX:700,
-    positionY:500,
-    width:80,
-    height:80,
-    }
+    positionY:540,
+    width:50,
+    height:50,
+}
 
 function drawFrogger() {
-    ctx.fillStyle = "green"
+    ctx.fillStyle = "red"
     ctx.fillRect(frogger.positionX, frogger.positionY, frogger.width, frogger.height)
 }
 
@@ -27,11 +27,26 @@ const logsTemplate = {
 
 const carTemplate = {
     positionX: -150,
-    positionY: 400,
-    width: 150,
-    height: 70,
+    positionY: 470,
+    width: 120,
+    height: 60,
     color: "blue", 
 }
+
+function colliding(frogger, cars) {
+    const collition = cars.some(car => 
+        frogger.positionX <= car.positionX + car.width &&  
+        frogger.positionX + frogger.width >= car.positionX &&
+        frogger.positionY <= car.positionY + car.height && 
+        frogger.positionY + frogger.height >= car.positionY
+    )
+    return collition
+}
+
+
+
+
+
 
 setInterval(() => {
     cars.push({ ...carTemplate})
@@ -47,47 +62,33 @@ function moveCars() {
     for (let i = 0; i < cars.length; i++) {
         cars[i].positionX += speeds
 
-        if (cars[i].positionX  > canvas.width) {
-            cars.splice(i, 1)
-            i--
-            continue
-        }
+        ctx.fillRect(carMovement.positionX, carMovement.positionY, carMovement.width, carMovement.height)
+    })
+    drawFrogger()
+    if (colliding(frogger, cars)) {
+    console.log("¡Rana atropellada!");
 
-        ctx.fillStyle = cars[i].color
-        ctx.fillRect(cars[i].positionX, cars[i].positionY, cars[i].width, cars[i].height)
-    }
-
-    for (let i = 0; i < logs.length; i++) {
-        logs[i].positionX -= speeds
-
-        if (logs[i].positionX + logs[i].width < 0) {
-            logs.splice(i, 1)
-            i--
-            continue
-        }
-        ctx.fillStyle = logs[i].color
-        ctx.fillRect(logs[i].positionX, logs[i].positionY, logs[i].width, logs[i].height)
-    }
-drawFrogger()    
+    // aquí podrías reiniciar la rana o detener el juego
+}
     requestAnimationFrame(moveCars)
 }
 moveCars()
 
 document.addEventListener("keydown", function(event) {
-  if(event.key === "ArrowUp" && frogger.positionY - 100 >= 0) {
-      frogger.positionY -= 100
+  if(event.key === "ArrowUp" && frogger.positionY - 60 >= 0) {
+      frogger.positionY -= 60
   }
 
-  if(event.key === "ArrowDown" && frogger.positionY + frogger.height + 100 <= canvas.height) {
-      frogger.positionY += 100
+  if(event.key === "ArrowDown" && frogger.positionY + frogger.height + 60 <= canvas.height) {
+      frogger.positionY += 60
   }
 
-  if(event.key === "ArrowRight" && frogger.positionX + frogger.width + 100 <= canvas.width) {
-      frogger.positionX += 100
+  if(event.key === "ArrowRight" && frogger.positionX + frogger.width + 60 <= canvas.width) {
+      frogger.positionX += 60
   }
 
-  if(event.key === "ArrowLeft" && frogger.positionX - 100 >= 0) {
-      frogger.positionX -= 100
+  if(event.key === "ArrowLeft" && frogger.positionX - 60 >= 0) {
+      frogger.positionX -= 60
   }
 
 })
