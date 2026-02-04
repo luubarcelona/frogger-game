@@ -14,7 +14,16 @@ function drawFrogger() {
 
 const speeds = 2
 const cars = []
+const logs = []
 
+const logsTemplate = {
+    positionX: 1630,
+    positionY: 200,
+    width: 150,
+    height: 70,
+    color: "red",
+
+}
 
 const carTemplate = {
     positionX: -150,
@@ -43,12 +52,15 @@ setInterval(() => {
     cars.push({ ...carTemplate})
 }, 2500);
 
+setInterval(() => {
+    logs.push({ ...logsTemplate })
+}, 2500); 
 
 function moveCars() {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
-    cars.forEach((carMovement) => {
-        carMovement.positionX += speeds
-        ctx.fillStyle = carMovement.color
+    
+    for (let i = 0; i < cars.length; i++) {
+        cars[i].positionX += speeds
 
         ctx.fillRect(carMovement.positionX, carMovement.positionY, carMovement.width, carMovement.height)
     })
@@ -61,7 +73,6 @@ function moveCars() {
     requestAnimationFrame(moveCars)
 }
 moveCars()
-
 
 document.addEventListener("keydown", function(event) {
   if(event.key === "ArrowUp" && frogger.positionY - 60 >= 0) {
@@ -80,12 +91,4 @@ document.addEventListener("keydown", function(event) {
       frogger.positionX -= 60
   }
 
-
 })
-
-
-
-
-
-
-
