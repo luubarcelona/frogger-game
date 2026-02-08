@@ -2,13 +2,13 @@ const canvas = document.getElementById("miCanvas")
 const ctx = canvas.getContext("2d")
 const speeds = 2
 const cars = []
-let vida = 0
+let animationId
 const frogger = {
     positionX:700,
     positionY:540,
     width:50,
     height:50,
-    lives: 1,
+    lives: 3,
 }
 
 const carTemplate = {
@@ -43,32 +43,43 @@ setInterval(() => {
 }, 2500)
 
 function colliding(frogger, cars) {
+    
     const collition = cars.some(car => 
-        frogger.positionX <= car.positionX + car.width &&  
-        frogger.positionX + frogger.width >= car.positionX &&
-        frogger.positionY <= car.positionY + car.height && 
-        frogger.positionY + frogger.height >= car.positionY
+        frogger.positionX < car.positionX + car.width &&  
+        frogger.positionX + frogger.width > car.positionX &&
+        frogger.positionY < car.positionY + car.height && 
+        frogger.positionY + frogger.height > car.positionY
     )
-    frogger.lives =-1
+
     return collition
 
 }
 
-
-
-function drawGame (){
+function drawGame() {
 
     if(colliding(frogger, cars)) {
-    console.log("¡Rana atropellada!")
-    cancelAnimationFrame(drawGame)  
-    }else{
+        frogger.lives-- 
+        console.log("¡Rana atropellada! Vidas restantes:", frogger.lives)
+
+        frogger.positionX = 700
+        frogger.positionY = 540
+
+        if(frogger.lives === 0){
+            console.log("¡Juego terminado!")
+            cancelAnimationFrame(animationId)
+            return
+        }
+    }
+
     moveCars()
     drawLives()
     drawFrogger()
-    requestAnimationFrame(drawGame)
-    }
+
+   
+    animationId = requestAnimationFrame(drawGame)
 }
-drawGame ()
+drawGame()
+
 
 document.addEventListener("keydown", function(event) {
     if(event.key === "ArrowUp" && frogger.positionY - 60 >= 0) {
