@@ -5,7 +5,7 @@ const cars = []
 let animationId
 const frogger = {
     positionX:700,
-    positionY:540,
+    positionY:600,
     width:50,
     height:50,
     lives: 3,
@@ -32,15 +32,29 @@ function drawFrogger() {
 
 function moveCars() {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
+    
     cars.forEach((carMovement) => {
-        carMovement.positionX += speeds
+        carMovement.positionX += carMovement.speed
         ctx.fillStyle = carMovement.color
         ctx.fillRect(carMovement.positionX, carMovement.positionY, carMovement.width, carMovement.height)
     })
 }
+
 setInterval(() => {
-    cars.push({ ...carTemplate})
-}, 2500)
+ cars.push({ ...carTemplate, positionY: 60, speed: 4 })
+}, 1200)
+setInterval(() => {
+ cars.push({ ...carTemplate, positionY: 180, speed: 3 })
+}, 1300)
+setInterval(() => {
+ cars.push({ ...carTemplate, positionY: 300,speed: 4 })
+}, 1200)
+setInterval(() => {
+ cars.push({ ...carTemplate, positionY: 420, speed: 5 })
+}, 1000) 
+setInterval(() => {
+ cars.push({ ...carTemplate, positionY: 540, speed: 3 })
+}, 1300)
 
 function colliding(frogger, cars) {
     
@@ -62,7 +76,7 @@ function drawGame() {
         console.log("¡Rana atropellada! Vidas restantes:", frogger.lives)
 
         frogger.positionX = 700
-        frogger.positionY = 540
+        frogger.positionY = 600
 
         if(frogger.lives === 0){
             console.log("¡Juego terminado!")
