@@ -23,8 +23,6 @@ const carTemplate = {
     image: null,
 }
 
-
-
 const background = new Image()
 background.src = "img/background.png"
 
