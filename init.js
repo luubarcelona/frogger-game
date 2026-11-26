@@ -171,7 +171,7 @@ return collition
 
 function drawGame() {
 
-    if(frogger.positionY <= 10){
+    if(frogger.positionY <= 8){
         cancelAnimationFrame(animationId)
         showWinner()
         return
@@ -211,8 +211,6 @@ let froggerCanMove = false
 setTimeout(() => {
     froggerCanMove = true
 }, 4000)
-
-
 
 document.addEventListener("keydown", function(event) {
     if (!froggerCanMove) return
