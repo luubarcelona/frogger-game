@@ -50,7 +50,7 @@ function drawBackground() {
 
             ctx.fillStyle = (row + column) % 2 === 0
                 ? "#e9c58f"
-                : "#c99b65"
+                : "#c49866"
 
             ctx.fillRect(x, y, tileSize, tileSize)
         }
